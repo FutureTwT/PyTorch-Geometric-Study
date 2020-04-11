@@ -10,9 +10,13 @@ edge_index = torch.tensor([
 x = torch.tensor([[-1],
                   [0],
                   [1],[2]], dtype=torch.float)
-y = torch.tensor([[1], [2]], dtype=torch.float)
+y = torch.tensor([[1], [2], [3], [4], [5]], dtype=torch.float)
 data = Data(x=x, y=y, edge_index=edge_index)
 
 print(data)
 
 ### Q2: 手动加载数据集
+from torch_geometric.datasets import Planetoid
+
+dataset = Planetoid(root='data/', name='Cora')
+print(dataset)
