@@ -1,7 +1,6 @@
 import torch
 from torch_geometric.nn import MessagePassing
 from torch_geometric.utils import add_self_loops, degree
-from torch_geometric.datasets import TUDataset
 
 class GCNConv(MessagePassing):
     def __init__(self, in_channels, out_channels):
@@ -33,7 +32,7 @@ class GCNConv(MessagePassing):
 
     def message(self, x_j, norm):
         # x_j的维度为[E, out_channels]
-
+        print(x_j)
         # 4.进行传递消息的构造，将标准化系数乘以邻域节点的特征信息得到传递信息
         return norm.view(-1, 1) * x_j
 
@@ -44,7 +43,18 @@ class GCNConv(MessagePassing):
         return aggr_out
 
 # 实例化对象
-conv = GCNConv(16, 32)
+conv = GCNConv(3, 3)
+# 构建数据
+edge_index = torch.tensor([
+    [0, 1, 1, 2],
+    [1, 0, 2, 1]
+], dtype=torch.long)
+x = torch.tensor([
+    [0, 0, 0],
+    [1, 1, 1],
+    [2, 2, 2]
+], dtype=torch.float)
+
 # 默认为调用对象的forward函数
 x = conv(x, edge_index)
 
